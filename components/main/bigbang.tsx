@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 // Define interfaces for your types
 interface Image {
+  id: number; // Added an ID for unique identification
   src: string;
   alt: string;
   isBall?: boolean;
@@ -18,11 +19,11 @@ function Bell() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const images: Image[] = [
-    { src: "", alt: "Yellow Ball", isBall: true },
-    { src: "/image_part_002.png", alt: "Image 2" },
-    { src: "/image_part_003.png", alt: "Image 3" },
-    { src: "/image_part_004.png", alt: "Image 4" },
-    { src: "/image_part_005.png", alt: "Image 5" }
+    { id: 1, src: "path_to_yellow_ball.png", alt: "Yellow Ball", isBall: true },
+    { id: 2, src: "/image_part_002.png", alt: "Image 2" },
+    { id: 3, src: "/image_part_003.png", alt: "Image 3" },
+    { id: 4, src: "/image_part_004.png", alt: "Image 4" },
+    { id: 5, src: "/image_part_005.png", alt: "Image 5" }
   ];
 
   const sections: Section[] = [
@@ -49,65 +50,75 @@ function Bell() {
   ];
 
   const handleOpenModal = (section: Section) => {
-    setModalData({ name: section.name, content: section.content });
+    setModalData(section);
     setModalOpen(true);
   };
 
-  const lineStyle = (index: number) => ({
-    height: hoveredIndex === index ? '95px' : '0',
-    backgroundColor: 'white',
-    width: '2px',
-    position: 'absolute',
-    left: index === 0 ? '100%' : '50%',
-    transform: index === 0 ? 'translateX(100%)' : 'translateX(-50%)',
-    bottom: '100%',
-    transition: 'height 0.3s ease-out'
-  });
-
-  const textStyle = (index: number) => ({
-    fontSize: '16px',
-    color: 'white',
-    left: index === 0 ? '50%' : '0%',
-    opacity: hoveredIndex === index ? '1' : '0',
-    transition: 'opacity 0.3s ease-out',
-    position: 'absolute',
-    width: '100%',
-    textAlign: 'center',
-    bottom: 'calc(100% + 100px)',
-    pointerEvents: 'none'
-  });
-
   return (
-    <div className="flex justify-around items-center h-screen bg-transparent overflow-visible">
-      {images.map((image, index) => (
-        <div key={image.alt} // Use image.alt as the key
-             className="w-1/5 h-96 bg-transparent hover:bg-transparent transition duration-300 transform hover:-translate-y-2 cursor-pointer shadow-lg relative"
-             onMouseEnter={() => setHoveredIndex(index)}
-             onMouseLeave={() => setHoveredIndex(null)}
-             onClick={() => handleOpenModal(sections[index])}>
-          {image.isBall ?
-            <div className="flex justify-end items-center w-full h-full">
-              <div style={{
-                width: '30px',
-                height: '30px',
-                backgroundColor: 'yellow',
-                borderRadius: '50%'
-              }}></div>
-            </div>
-            :
-            <img src={image.src} alt={image.alt} className="w-full h-full object-cover"/>
-          }
-          <div style={lineStyle(index)}></div>
-          {sections[index] && <p style={textStyle(index)}>{sections[index].name}</p>}
-        </div>
-      ))}
+    <div className="flex justify-around items-center min-h-screen bg-transparent p-4">
+      {images.map((image, index) => {
+        const section = sections[index];
+        
+        return (
+          <div 
+            key={image.id}
+            className="relative w-48 h-96 group cursor-pointer"
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+            onClick={() => section && handleOpenModal(section)}
+          >
+            {image.isBall ? (
+              <div className="flex justify-end items-center w-full h-full">
+                <div className="w-8 h-8 rounded-full bg-yellow-400"></div>
+              </div>
+            ) : (
+              <img 
+                src={image.src} 
+                alt={image.alt} 
+                className="w-full h-full object-cover rounded-lg"
+              />
+            )}
+            
+            {/* Line */}
+            <div 
+              className="absolute left-1/2 bottom-full w-0.5 bg-white transition-all duration-300 ease-out"
+              style={{ 
+                height: hoveredIndex === index ? '96px' : '0',
+                transform: 'translateX(-50%)'
+              }}
+            />
+            
+            {/* Text */}
+            {section && (
+              <div 
+                className="absolute bottom-full mb-24 left-1/2 -translate-x-1/2 w-full text-center text-white transition-opacity duration-300 pointer-events-none"
+                style={{ opacity: hoveredIndex === index ? 1 : 0 }}
+              >
+                <p className="text-base">{section.name}</p>
+              </div>
+            )}
+          </div>
+        );
+      })}
 
       {modalOpen && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center">
-          <div className="bg-white p-4 rounded-lg" style={{ width: '300px', maxWidth: '90%' }}>
-            <h1 className="text-center md:text-2xl lg:text-[16px] font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">{modalData.name}</h1>
-            <div className="text-center mt-4 mb-4">{modalData.content}</div>
-            <button className='mx-auto block font-bold bg-green-600 text-white rounded-lg w-24 h-12 hover:bg-green-700' onClick={() => setModalOpen(false)}>OK</button>
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center p-4" onClick={() => setModalOpen(false)}>
+          <div 
+            className="bg-white p-6 rounded-lg max-w-md w-full" 
+            onClick={e => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-semibold text-center bg-gradient-to-r from-purple-500 to-cyan-500 bg-clip-text text-transparent">
+              {modalData.name}
+            </h2>
+            <p className="mt-4 mb-6 text-gray-700 text-center">
+              {modalData.content}
+            </p>
+            <button 
+              className="mx-auto block px-6 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
+              onClick={() => setModalOpen(false)}
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
