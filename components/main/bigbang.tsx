@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
 
+// Define interfaces for your types
+interface Image {
+  src: string;
+  alt: string;
+  isBall?: boolean;
+}
+
+interface Section {
+  name: string;
+  content: string;
+}
+
 function Bell() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalData, setModalData] = useState({ name: "", content: "" });
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [modalData, setModalData] = useState<{ name: string; content: string }>({ name: "", content: "" });
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  const images = [
+  const images: Image[] = [
     { src: "", alt: "Yellow Ball", isBall: true },
     { src: "/image_part_002.png", alt: "Image 2" },
     { src: "/image_part_003.png", alt: "Image 3" },
@@ -13,7 +25,7 @@ function Bell() {
     { src: "/image_part_005.png", alt: "Image 5" }
   ];
 
-  const sections = [
+  const sections: Section[] = [
     {
       name: "Planning",
       content: "The most crucial phase of the project development. This step involves the calculation of all the required technologies, estimated time required for the project development, costing of the project and deployment. It is also when the final quotation is provided to client."
@@ -36,12 +48,12 @@ function Bell() {
     }
   ];
 
-  const handleOpenModal = (section) => {
+  const handleOpenModal = (section: Section) => {
     setModalData({ name: section.name, content: section.content });
     setModalOpen(true);
   };
 
-  const lineStyle = (index) => ({
+  const lineStyle = (index: number) => ({
     height: hoveredIndex === index ? '95px' : '0',
     backgroundColor: 'white',
     width: '2px',
@@ -52,7 +64,7 @@ function Bell() {
     transition: 'height 0.3s ease-out'
   });
 
-  const textStyle = (index) => ({
+  const textStyle = (index: number) => ({
     fontSize: '16px',
     color: 'white',
     left: index === 0 ? '50%' : '0%',
@@ -68,7 +80,7 @@ function Bell() {
   return (
     <div className="flex justify-around items-center h-screen bg-transparent overflow-visible">
       {images.map((image, index) => (
-        <div key={index}
+        <div key={image.alt} // Use image.alt as the key
              className="w-1/5 h-96 bg-transparent hover:bg-transparent transition duration-300 transform hover:-translate-y-2 cursor-pointer shadow-lg relative"
              onMouseEnter={() => setHoveredIndex(index)}
              onMouseLeave={() => setHoveredIndex(null)}
@@ -101,8 +113,6 @@ function Bell() {
       )}
     </div>
   );
-
-
 }
 
 export default Bell;
