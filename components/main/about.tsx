@@ -9,8 +9,13 @@ import ImpactChart from "./ImpactChart";
 import Testimonials from "./testimonials";
 
 
+interface AnimatedTextProps {
+  children: React.ReactNode;
+  delay?: number;
+}
+
 // AnimatedText component for gradual text loading
-const AnimatedText = ({ children, delay = 0 }) => {
+const AnimatedText: React.FC<AnimatedTextProps> = ({ children, delay = 0 }) => {
   const words = React.Children.map(children, child => {
     if (typeof child === 'string') {
       return child.split(' ').map((word, index) => (
