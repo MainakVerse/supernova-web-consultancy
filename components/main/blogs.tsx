@@ -144,7 +144,7 @@ export const Blogs = () => {
             <button
               key={number}
               onClick={() => paginate(number)}
-              className={`px-4 bg-blue font-bold py-2 rounded-lg border ${
+              className={`px-4 bg-white font-bold py-2 rounded-lg border ${
                 currentPage === number
                   ? 'bg-blue-500 text-white'
                   : 'hover:bg-gray-100'
@@ -167,4 +167,4 @@ export const Blogs = () => {
   );
 };
 
-export default Blogs; 
+export default Blogs;
