@@ -7,12 +7,12 @@ import { slideInFromTop } from "@/lib/motion";
 
 export const Footer = () => {
   useEffect(() => {
-    const container = document.querySelector(".group");
-    const torch = document.querySelector(".torchlight");
+    const container = document.querySelector(".group") as HTMLElement | null;
+    const torch = document.querySelector(".torchlight") as HTMLElement | null;
 
     if (!container || !torch) return;
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -84,21 +84,20 @@ export const Footer = () => {
 
       {/* Bottom copyright text */}
       <div
-  className="text-center m-4 text-[14px] md:text-[16px] relative group"
-  style={{ position: "relative", overflow: "hidden" }}
-  onMouseMove={(e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    e.currentTarget.style.backgroundImage = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 255, 255, 0.3), transparent)`;
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.backgroundImage = "none";
-  }}
->
-  &copy; Supernova {new Date().getFullYear()} Inc. All rights reserved.
-</div>
-
+        className="text-center m-4 text-[14px] md:text-[16px] relative group"
+        style={{ position: "relative", overflow: "hidden" }}
+        onMouseMove={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          e.currentTarget.style.backgroundImage = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 255, 255, 0.3), transparent)`;
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundImage = "none";
+        }}
+      >
+        &copy; Supernova {new Date().getFullYear()} Inc. All rights reserved.
+      </div>
     </div>
   );
 };
