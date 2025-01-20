@@ -55,7 +55,6 @@
     "url": "https://github.com/MainakVerse/supernova/issues",
     "email": "mainakchaudhuri671@gmail.com"
   },
-  
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -65,9 +64,12 @@
     "@mui/x-charts": "^7.24.0",
     "@react-three/drei": "^9.93.0",
     "@react-three/fiber": "^8.15.13",
+    "@tailwindcss/typography": "^0.5.16",
     "clsx": "^2.1.0",
     "framer-motion": "^10.18.0",
+    "googleapis": "^144.0.0",
     "lodash": "^4.17.21",
+    "lucide-react": "^0.473.0",
     "next": "14.2.15",
     "react": "^18",
     "react-countup": "^6.5.3",

@@ -19,7 +19,7 @@ function Bell() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const images: Image[] = [
-    { id: 1, src: "path_to_yellow_ball.png", alt: "Yellow Ball", isBall: true },
+    { id: 1, src: "/image_part_001.png", alt: "Yellow Ball", isBall: false },
     { id: 2, src: "/image_part_002.png", alt: "Image 2" },
     { id: 3, src: "/image_part_003.png", alt: "Image 3" },
     { id: 4, src: "/image_part_004.png", alt: "Image 4" },

@@ -332,12 +332,12 @@ export const FOOTER_DATA = [
       {
         name: "GitHub",
         icon: RxGithubLogo,
-        link: "https://github.com",
+        link: "https://github.com/Supernova-MV",
       },
       {
         name: "Instagram",
         icon: RxInstagramLogo,
-        link: "https://instagram.com",
+        link: "https://www.instagram.com/supernova_web/",
       },
       {
         name: "Twitter",
@@ -347,7 +347,7 @@ export const FOOTER_DATA = [
       {
         name: "Linkedin",
         icon: RxLinkedinLogo,
-        link: "https://linkedin.com",
+        link: "https://www.linkedin.com/company/supernova-mv/",
       },
     ],
   },

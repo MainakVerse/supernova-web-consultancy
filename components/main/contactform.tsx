@@ -18,7 +18,7 @@ interface AlertProps {
   onClose: () => void;
 }
 
-// Custom Alert Component
+// Alert Component
 const CustomAlert: React.FC<AlertProps> = ({ type, message, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(onClose, 5000);
@@ -26,7 +26,10 @@ const CustomAlert: React.FC<AlertProps> = ({ type, message, onClose }) => {
   }, [onClose]);
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
       role="alert"
       className={`p-4 rounded-md ${
         type === "success" ? "bg-green-500/10 text-green-500" : "bg-red-500/10 text-red-500"
@@ -35,21 +38,25 @@ const CustomAlert: React.FC<AlertProps> = ({ type, message, onClose }) => {
       <p>{message}</p>
       <button
         onClick={onClose}
-        className="ml-4 text-current hover:opacity-70"
+        className="ml-4 text-current hover:opacity-70 transition-opacity"
         aria-label="Close alert"
       >
         ×
       </button>
-    </div>
+    </motion.div>
   );
 };
 
 // Map Section Component
 const MapSection: React.FC = () => (
-  <div className="col-span-12 md:col-span-6">
+  <motion.div
+    initial={{ opacity: 0, x: -20 }}
+    animate={{ opacity: 1, x: 0 }}
+    className="col-span-12 md:col-span-6"
+  >
     <div className="bg-black/65 border border-cyan-500 shadow-md rounded-lg p-6 h-full">
       <h2 className="text-2xl font-bold text-white mb-4" id="location-heading">
-        Visit Us for a Drink 🍻
+        Visit Us
       </h2>
       <div className="relative w-full h-[300px] rounded-lg overflow-hidden">
         <iframe
@@ -66,16 +73,17 @@ const MapSection: React.FC = () => (
         />
       </div>
     </div>
-  </div>
+  </motion.div>
 );
 
 // Contact Form Component
-interface ContactFormProps {
-  onSubmit: (data: FormData) => Promise<void>;
-  isSubmitting: boolean;
-}
+const ContactForm: React.FC = () => {
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({ type: null, message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-const ContactForm: React.FC<ContactFormProps> = ({ onSubmit, isSubmitting }) => {
   const {
     register,
     handleSubmit,
@@ -83,21 +91,66 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit, isSubmitting }) => 
     reset,
   } = useForm<FormData>();
 
-  const onSubmitHandler = async (data: FormData) => {
+  const clearStatus = () => {
+    setSubmitStatus({ type: null, message: "" });
+  };
+
+  const onSubmit = async (formData: FormData) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     try {
-      await onSubmit(data);
+      await fetch(
+        "https://script.google.com/macros/s/AKfycbzg4wI44N1r7QFimHsGlhOMhzDymKSO-qCBn9A6MfHh6W5JQlADok6wbmApjbFMg8KURQ/exec",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            yourName: formData.name,
+            yourEmail: formData.email,
+            yourMessage: formData.message,
+          }),
+          mode: "no-cors",
+        }
+      );
+
+      setSubmitStatus({
+        type: "success",
+        message: "Thank you for your message! We'll get back to you soon.",
+      });
       reset();
     } catch (error) {
       console.error("Form submission error:", error);
+      setSubmitStatus({
+        type: "error",
+        message: "Failed to submit form. Please try again later.",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="col-span-12 md:col-span-6">
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      className="col-span-12 md:col-span-6"
+    >
       <div className="bg-black/65 border border-cyan-500 shadow-md rounded-lg p-6">
-        <h2 className="text-2xl font-bold text-white mb-4">Send Us a Letter 😉</h2>
+        <h2 className="text-2xl font-bold text-white mb-4">Send Us a Message</h2>
+        {submitStatus.type && (
+          <div className="mb-6">
+            <CustomAlert
+              type={submitStatus.type}
+              message={submitStatus.message}
+              onClose={clearStatus}
+            />
+          </div>
+        )}
         <form
-          onSubmit={handleSubmit(onSubmitHandler)}
+          onSubmit={handleSubmit(onSubmit)}
           className="space-y-4"
           aria-label="Contact form"
         >
@@ -109,7 +162,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit, isSubmitting }) => 
               {...register("name", { required: "Name is required" })}
               type="text"
               id="name"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-900/50 text-green-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm bg-gray-900/50 text-green-500"
               placeholder="Your Name"
               aria-describedby={errors.name ? "name-error" : undefined}
             />
@@ -134,7 +187,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit, isSubmitting }) => 
               })}
               type="email"
               id="email"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-900/50 text-green-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm bg-gray-900/50 text-green-500"
               placeholder="you@example.com"
               aria-describedby={errors.email ? "email-error" : undefined}
             />
@@ -153,7 +206,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit, isSubmitting }) => 
               {...register("message", { required: "Message is required" })}
               id="message"
               rows={4}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-900/50 text-green-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm bg-gray-900/50 text-green-500"
               placeholder="Your message"
               aria-describedby={errors.message ? "message-error" : undefined}
             />
@@ -167,62 +220,21 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit, isSubmitting }) => 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+            className="w-full px-4 py-2 text-white bg-gradient-to-r from-cyan-500 to-violet-900 rounded-md hover:opacity-90 focus:ring-2 focus:ring-cyan-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             aria-busy={isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Submit"}
+            {isSubmitting ? "Sending..." : "Send Message"}
           </button>
         </form>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
-// Main ContactSection Component
+// Main Contact Section Component
 export const ContactSection: React.FC = () => {
-  const [submitStatus, setSubmitStatus] = useState<{
-    type: "success" | "error" | null;
-    message: string;
-  }>({ type: null, message: "" });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const clearStatus = () => {
-    setSubmitStatus({ type: null, message: "" });
-  };
-
-  const submitForm = async (formData: FormData): Promise<void> => {
-    if (isSubmitting) return; // Prevent multiple submissions
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to submit form");
-      }
-
-      setSubmitStatus({
-        type: "success",
-        message: "Thank you for your message! We'll get back to you soon.",
-      });
-    } catch (error) {
-      setSubmitStatus({
-        type: "error",
-        message: "Failed to submit form. Please try again later.",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
-    <div className="container mx-auto px-4 py-10">
+    <section className="container mx-auto px-4 py-10">
       <motion.div
         initial="hidden"
         animate="visible"
@@ -239,32 +251,15 @@ export const ContactSection: React.FC = () => {
         initial="hidden"
         animate="visible"
         variants={slideInFromRight(0.8)}
-        className="cursive text-[30px] text-gray-200 mb-10 mt-[10px] text-center"
+        className="text-[20px] text-gray-200 mb-10 mt-[10px] text-center"
       >
-        We would love to hear back from you!
+        We would love to hear from you!
       </motion.div>
-
-      <AnimatePresence>
-        {submitStatus.type && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="mb-6"
-          >
-            <CustomAlert
-              type={submitStatus.type}
-              message={submitStatus.message}
-              onClose={clearStatus}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <div className="grid grid-cols-12 gap-6">
         <MapSection />
-        <ContactForm onSubmit={submitForm} isSubmitting={isSubmitting} />
+        <ContactForm />
       </div>
-    </div>
+    </section>
   );
 };
