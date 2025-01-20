@@ -96,3 +96,14 @@ html {
 .glow-yellow {
   filter: drop-shadow(0 0 8px rgba(252, 211, 77, 0.8));
 }
+
+:root {
+  --rotation: 0deg;
+  --radius: 100px;
+}
+
+.animate-orbit {
+  position: absolute;
+  transform-origin: center;
+  transform: rotate(var(--rotation)) translate(var(--radius));
+}
