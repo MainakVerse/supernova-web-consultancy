@@ -95,14 +95,14 @@ export const SOCIALS = [
     link: "https://instagram.com",
   },
   {
-    name: "Facebook",
-    icon: FaFacebook,
-    link: "https://facebook.com",
+    name: "Linkedin",
+    icon: RxLinkedinLogo,
+    link: "https://www.linkedin.com/company/supernova-mv/",
   },
   {
-    name: "Twitter",
-    icon: RxTwitterLogo,
-    link: "https://twitter.com",
+    name: "Github",
+    icon: RxGithubLogo,
+    link: "https://github.com/Supernova-MV",
   },
 ] as const;
 

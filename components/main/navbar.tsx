@@ -18,12 +18,12 @@ export const Navbar = () => {
           <Image
             src="/logo.png"
             alt="Logo"
-            width={70}
-            height={70}
+            width={50}
+            height={50}
             draggable={false}
             className="cursor-pointer"
           />
-          <div className="hidden md:flex font-bold ml-[10px] text-gray-300">Supernova</div>
+          <div className="hidden md:flex font-bold ml-[10px] text-gray-300 text-xl">Supernova</div>
         </Link>
 
         {/* Web Navbar */}
