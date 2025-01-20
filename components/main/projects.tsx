@@ -49,8 +49,7 @@ export const Projects = () => {
           <ProjectCard
           key={project.title} // Use `title` as the unique key if it's guaranteed to be unique
           src={project.image}
-          title={project.title}
-          description={project.link}
+          title={project.title}          
           link={project.link}
         />
       ))}
