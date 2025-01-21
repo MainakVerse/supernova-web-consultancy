@@ -1,6 +1,6 @@
 # Supernova -  The World's Best Web Consultancy
 
-![image](https://github.com/user-attachments/assets/d41b4467-aa09-415d-9f7e-9a3db6941bf9)
+![image](https://github.com/user-attachments/assets/65ac6e8d-3f16-4e64-b21d-0d52b9db4b24)
 
 ![image](https://github.com/user-attachments/assets/8b212647-abaa-4ebb-a8e8-3f2b21279f7a)
 
