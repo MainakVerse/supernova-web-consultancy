@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { FaYoutube, FaFacebook } from "react-icons/fa";
 import {
   
@@ -257,6 +258,45 @@ export const OTHER_SKILL = [
   },
 ] as const;
 
+export const TECHS = [
+  {
+    tech_name: 'MERN',
+    image: "mern.png",
+    width: 60,
+    height: 60
+  },
+  {
+    tech_name: 'MEAN',
+    image: "mean.png",
+    width: 60,
+    height: 60
+  },
+  {
+    tech_name: 'WAMP',
+    image: "wamp.png",
+    width: 60,
+    height: 60
+  },
+  {
+    tech_name: 'Django',
+    image: "djnago.png",
+    width: 60,
+    height: 60
+  },
+  {
+    tech_name: 'Spring Boot',
+    image: "spring.png",
+    width: 60,
+    height: 60
+  },
+  {
+    tech_name: 'JAM',
+    image: "jam.png",
+    width: 60,
+    height: 60
+  },
+] as const;
+
 export const PROJECTS = [
   {
     title: "Supernova One",
@@ -319,6 +359,8 @@ export const PROJECTS = [
     link: "https://supernova-twelve.netlify.app/",
   },
 ] as const;
+
+
 
 export const FOOTER_DATA = [
   {
