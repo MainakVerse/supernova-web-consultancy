@@ -1,4 +1,4 @@
-# Supernova -  The World's Best Web Consultancy
+# Supernova -  The World's Best Web Consultancy Service
 
 ![image](https://github.com/user-attachments/assets/7e05a8de-9760-4d44-b045-4b49065bc6aa)
 
