@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "http://supernovabusiness.in/*"
+  to = "https://supernovabusiness.in/:splat"
+  status = 301
+  force = true
